@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age calculator</title>
+    <link
+      rel="shortcut icon"
+      href="https://is3-ssl.mzstatic.com/image/thumb/Purple124/v4/b8/3f/bc/b83fbca0-557a-844c-82ce-29f920efac24/source/512x512bb.jpg"
+      type="image/x-icon"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="responsive.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 90vh;
+        display: flex;
+        background-color: #fff;
+        margin: 40px; 
+        position: relative;
+
+      }
+      #togglemoon,#togglesun {
+        position: absolute;
+        color: #fff;
+        background: linear-gradient(to bottom, #0000FF, #FFFF00);
+
+        height: 40px;
+        width: 40px;
+        right: 0;
+        font-size: 1.5rem;
+        border-radius: 50%;
+        margin: 10px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      #togglemoon i {
+        color: #fff;
+      }
+      .light{
+        color: #fff;
+      }
+      .dark {
+        background-color: #000000;
+      }
+      .calculator {
+        display: flex;
+        flex-direction: column;
+       
+        border-radius: 20px;
+        padding: 40px 50px;
+        border: 5px solid transparent; /* Transparent border for gradient */
+        border-image: linear-gradient(to bottom, #0000FF, #FFFF00) 1;
+
+        
+        h1 {
+          font-size: 3rem;
+          letter-spacing: 2px;
+          font-variant: small-caps;
+          color:  #c5bb02;
+          span {
+            color: black;
+          }
+        }
+      }
+
+      .inputbox {
+        margin-top: 30px;
+        background: transparent;
+        height: 150px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        input {
+          color:  #736d03;;
+          width: 70%;
+          height: 50px;
+          padding-left: 10px;
+          border-radius: 10px;
+          border: none;
+          outline: none;
+          font-size: 1.2rem;
+          border: 2px solid #778f00;
+          box-shadow: 15px 10px 15px #c5bb02;
+          background: transparent;
+        }
+      }
+      .primary-btn {
+        background: linear-gradient(to bottom, #0000FF, #FFFF00);
+
+        height: 50px;
+        width: 29%;
+        color: #fff;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font-size: 1.25rem;
+      }
+
+      #result {
+        margin-top: 25px;
+        font-size: 1.7rem;
+        color:  #4d4d02;
+
+      }
+      #retry {
+        margin-top: 20px;
+        padding: 10px 40px;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+        border: none;
+        outline: none;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .calculator {
+          padding: 50px 50px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .calculator {
+          margin-top: 40px;
+          width: 100%;
+          padding: 40px 30px;
+          justify-content: center;
+          gap: 20px;
+        }
+        .inputbox {
+          height: 150px;
+          width: auto;
+          flex-direction: column;
+          border: none;
+          gap: 20px;
+          button {
+            width: 45%;
+            margin-bottom: 10px;
+          }
+
+          input {
+            border: 2px solid #778f00;
+            width: 90%;
+          }
+        }
+        #retry {
+          display: flex;
+          text-align: center;
+          justify-content: center;
+          align-items: center;
+          width: 40%;
+        }
+        span {
+          word-wrap: break-word;
+        }
+      }
+
+      @media screen and (max-width: 450px) {
+        body {
+          margin: 10px;
+          
+        h1 {
+          font-size: 2rem;
+        }
+        .calculator{
+            border: none;
+        }
+        span {
+          font-size: 2.5rem;
+        }
+        #togglemoon,#togglesun {
+            margin: 0px;
+        }
+
+      }
+    }
+    </style>
+  </head>
+
+  <body id="moon">
+    <div >
+    <div id="togglemoon">
+      <i class="bx bx-moon"></i>
+    </div>
+    <div class="calculator">
+      <h1>Age <br /><span>calculator</span></h1>
+      <div class="inputbox" id="moon">
+        <input type="date" id="date" />
+        <button class="primary-btn" id="calculator" onclick="calculateAge()">
+          Calculate
+        </button>
+      </div>
+      <p id="result">Your Age shown here!</p>
+      <button class="primary-btn" onclick="retry()" id="retry">Clear</button>
+    </div>
+</div>
+    <script>
+      function calculateAge() {
+        const birthdateInput = document.getElementById("date").value;
+        if (!birthdateInput) {
+          document.getElementById("result").textContent =
+            "Please select your birthdate.";
+          return;
+        }
+
+        const birthdate = new Date(birthdateInput);
+        const today = new Date();
+
+        let ageYears = today.getFullYear() - birthdate.getFullYear();
+        let ageMonths = today.getMonth() - birthdate.getMonth();
+        let ageDays = today.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+          ageMonths--;
+          ageDays += new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+          ).getDate();
+        }
+
+        if (ageMonths < 0) {
+          ageYears--;
+          ageMonths += 12;
+        }
+
+        document.getElementById(
+          "result"
+        ).textContent = `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+      }
+
+      function retry() {
+        location.reload();
+      }
+
+      const enter = document.getElementById("date");
+      enter.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          calculateAge();
+        }
+      });
+
+      const darkmode = document.getElementById("moon");
+      const toggle = document.getElementById("togglemoon");
+      const spans =document.getElementsByTagName('span');
+      
+      const lightmode = document.createElement("div");
+      lightmode.id = "togglesun";
+      lightmode.innerHTML = "<i class='bx bx-sun light'></i>";
+
+      toggle.addEventListener("click", () => {
+        darkmode.classList.toggle("dark");
+        for (const span of spans) {
+          span.style.color = "white";
+        }
+        if (toggle.parentElement) {
+          toggle.replaceWith(lightmode);
+        }
+      });
+
+      lightmode.addEventListener("click", () => {
+        darkmode.classList.toggle("dark");
+        for (const span of spans) {
+          span.style.color = "black";
+        }
+        if (lightmode.parentElement) {
+          lightmode.replaceWith(toggle);
+        }
+      });
+    </script>
+  </body>
+</html>
